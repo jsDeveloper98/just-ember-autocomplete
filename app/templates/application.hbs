@@ -1,0 +1,71 @@
+<div class="background">
+  <div class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Hovhannes</a>
+  </div>
+  {{#if loading}}
+  <div class="loader loader--style1 position-absolute" title="0">
+  <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+   width="30px" height="30px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+  <path opacity="0.2" fill="#000" d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
+    s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
+    c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z"/>
+  <path fill="#000" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
+    C22.32,8.481,24.301,9.057,26.013,10.047z">
+    <animateTransform attributeType="xml"
+      attributeName="transform"
+      type="rotate"
+      from="0 20 20"
+      to="360 20 20"
+      dur="0.5s"
+      repeatCount="indefinite"/>
+    </path>
+  </svg>
+</div>
+{{/if}}
+  <div class="container py-4 position-relative" {{on-click-outside (action (mut recProps) false)}}>
+    <div class="input-group">
+      <div class="input-group-prepend">
+      </div>
+      {{input key-up=(action 'keyUp') focus-in=(action (mut recProps) true)
+       autocomplete='off'  value=inputValue type="search" class="form-control" placeholder="Search"}}
+       <div class="circle"></div>
+    </div> 
+     {{#if recProps}}
+        <div class="searched-users">
+          {{#each recomendedProps as |username index|}}
+            <div class="searched-username py-3 pl-3 {{if (eq index indexOfUsers) 'active'}}"
+             {{action 'selectUser' username}}> {{username}}</div>
+          {{/each}}
+        </div>
+    {{/if}}
+    {{#if recUsers}}
+      <div class="recent-users" >
+        <div class='recent-searches py-1 pl-3 font-weight-bold'>Recent Searches</div>
+
+        {{#each recentUsers as |recentUser index|}}
+          <div class="recent-user py-3 pl-3 {{if (eq index indexOfRecentUsers) 'active'}}"
+            {{action 'selectRecentUser' recentUser}}>{{recentUser}}
+          </div>
+        {{/each}}
+      </div>
+    {{/if}}
+  </div>
+  <div class="scroll container-fluid px-5 pb-4">
+    <div class="head row font-weight-bold">
+      <div class="title col-2 py-3">#</div>
+      <div class="title col-3 py-3">First Name</div>
+      <div class="title col-3 py-3">Last Name</div>
+      <div class="title col-4 py-3">Username</div>
+    </div>
+    {{#each filteredUsers as |user|}}
+    <div class="users-list row">
+      <div class="title col-2 py-3 font-weight-bold">{{user.id}}</div>
+      <div class="title col-3 py-3">{{user.firstName}}</div>
+      <div class="title col-3 py-3">{{user.lastName}}</div>
+      <div class="title col-4 py-3">{{user.username}}</div>
+    </div>
+    {{/each}}
+  </div>
+</div>
+
+{{outlet}}

@@ -1,0 +1,101 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.background {
+  background-color: rgb(236, 233, 233);
+  width: 100%;
+  min-height: 100vh;
+}
+
+.searched-users {
+  background-color: white;
+  border-top: 1px solid rgb(218, 216, 216);
+  border-left: 1px solid rgb(218, 216, 216);
+  border-right: 1px solid rgb(218, 216, 216);
+  position: absolute;
+  left: 15px;
+  right: 15px;
+  z-index: 50;
+}
+
+.searched-username {
+  border-bottom: 1px solid rgb(218, 216, 216);
+}
+
+.searched-username:hover {
+  background-color: rgb(236, 233, 233);
+}
+
+.recent-users {
+  background-color: white;
+  border-top: 1px solid rgb(218, 216, 216);
+  border-left: 1px solid rgb(218, 216, 216);
+  border-right: 1px solid rgb(218, 216, 216);
+  position: absolute;
+  left: 15px;
+  right: 15px;
+  z-index: 50;
+}
+
+.recent-user {
+  border-bottom: 1px solid rgb(218, 216, 216);
+}
+
+.recent-user:hover {
+  background-color: rgb(236, 233, 233);
+}
+
+.recent-searches {
+  border-bottom: 1px solid rgb(218, 216, 216);
+  color: gray;
+  font-size: 14px;
+}
+
+.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.head {
+  background-color: white;
+  border-bottom: 2px solid rgb(218, 216, 216);
+  border-left: 1px solid rgb(218, 216, 216);
+  border-top: 1px solid rgb(218, 216, 216);
+}
+
+.users-list {
+  background-color: white;
+  border-bottom: 1px solid rgb(218, 216, 216);
+  border-left: 1px solid rgb(218, 216, 216);
+  border-top: 1px solid rgb(218, 216, 216);
+  overflow: hidden;
+}
+
+.users-list:hover {
+  background-color: rgb(236, 233, 233);
+}
+
+.title {
+  border-right: 1px solid rgb(218, 216, 216);
+}
+
+/* LOADING */
+
+
+.loader {
+  text-align: center;
+  display: inline-block;
+  vertical-align: top;
+  top: 13px;
+  right:33px;
+}
+/*
+  Set the color of the icon
+*/
+svg path,
+svg rect {
+  fill: white;
+}
