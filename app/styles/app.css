@@ -4,6 +4,10 @@
   padding: 0;
 }
 
+body {
+  min-width: 450px;
+}
+
 .background {
   background-color: rgb(236, 233, 233);
   width: 100%;
@@ -55,7 +59,7 @@
 }
 
 .active {
-  background-color: #007bff;
+  background-color: #007bff !important;
   color: white;
 }
 
@@ -84,13 +88,12 @@
 
 /* LOADING */
 
-
 .loader {
   text-align: center;
   display: inline-block;
   vertical-align: top;
   top: 13px;
-  right:33px;
+  right: 33px;
 }
 /*
   Set the color of the icon
@@ -98,4 +101,16 @@
 svg path,
 svg rect {
   fill: white;
+}
+
+@media only screen and (max-width: 650px) {
+  .users-list {
+    font-size: 14px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .users-list {
+    font-size: 12px;
+  }
 }

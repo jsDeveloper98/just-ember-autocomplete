@@ -22,10 +22,10 @@ export default Controller.extend({
     } else {
       const filteredUsers = this.get("users")
         .filter(
-          user => user.get("username").indexOf(this.get("inputValue")) > -1
+          user => user.get("fullName").indexOf(this.get("inputValue")) > -1
         )
         .slice(0, 5);
-      return filteredUsers.mapBy("username");
+      return filteredUsers.mapBy("fullName");
     }
   }),
 
@@ -34,7 +34,7 @@ export default Controller.extend({
       return this.get("users").filter(
         user =>
           user
-            .get("username")
+            .get("fullName")
             .toLowerCase()
             .indexOf(this.get("selectedUser").toLowerCase()) > -1
       );
@@ -42,9 +42,18 @@ export default Controller.extend({
     return this.get("users");
   }),
 
-  recUsers: computed('recentUsers.length', 'recProps', 'inputValue', function() {
-    return this.get('recentUsers.length') && this.get('recProps') && !this.get('inputValue');
-  }),
+  recUsers: computed(
+    "recentUsers.length",
+    "recProps",
+    "inputValue",
+    function() {
+      return (
+        this.get("recentUsers.length") &&
+        this.get("recProps") &&
+        !this.get("inputValue")
+      );
+    }
+  ),
 
   seed() {
     for (let i = 1; i <= usersCount; i++) {
@@ -65,38 +74,47 @@ export default Controller.extend({
     this._super(...arguments);
     setTimeout(() => {
       this.seed();
-      this.set('loading', false);
-    },2000)
+      this.set("loading", false);
+    }, 2000);
   },
 
   actions: {
+    focusIn() {
+      this.set("recProps", true);
+      const selectText = document.getElementById("textId");
+      selectText.select();
+    },
     selectUser(username) {
-      if(this.get('inputValue') !== '') {
+      if (this.get("inputValue") !== "") {
         this.set("inputValue", username);
         this.set("selectedUser", username);
-        if(this.get('recentUsers').indexOf(this.get('inputValue')) === -1) {
-           this.get("recentUsers").pushObject(this.get("inputValue"));
-           if (this.get("recentUsers.length") > 5) {
-               this.get("recentUsers").shiftObject();
-           }
-         this.get('recomendedProps').removeObject(username);
-         }
-       } 
+        if (
+          this.get("recentUsers").indexOf(this.get("inputValue")) === -1 &&
+          this.get("inputValue") !== ""
+        ) {
+          this.get("recentUsers").pushObject(this.get("inputValue"));
+          if (this.get("recentUsers.length") > 5) {
+            this.get("recentUsers").shiftObject();
+          }
+          this.get("recomendedProps").removeObject(username);
+        }
+      }
     },
     selectRecentUser(recentUser) {
       this.set("inputValue", recentUser);
       this.set("selectedUser", recentUser);
-      this.set('recProps', false); 
+      this.set("recProps", false);
     },
+
     keyUp(value, event) {
       if (event.key === "Enter") {
         if (this.get("recUsers")) {
-          const recentArr = this.get("recentUsers")[this.get("indexOfRecentUsers")];
+          const recentArr = this.get("recentUsers")[
+            this.get("indexOfRecentUsers")
+          ];
           this.set("selectedUser", recentArr);
           this.set("inputValue", recentArr);
-          if(this.get('inputValue') !== '') {
-          this.get('recomendedProps').removeObject(recentArr);  
-          }
+          this.get("recomendedProps").removeObject(recentArr);
           return;
         }
         if (
@@ -106,16 +124,28 @@ export default Controller.extend({
           const arr = this.get("recomendedProps")[this.get("indexOfUsers")];
           this.set("selectedUser", arr);
           this.set("inputValue", arr);
-           if(this.get('recentUsers').indexOf(this.get('inputValue')) === -1) {
-           this.get("recentUsers").pushObject(this.get("inputValue"));
-           }
+          if (
+            this.get("recentUsers").indexOf(this.get("inputValue")) === -1 &&
+            this.get("inputValue") !== ""
+          ) {
+            this.get("recentUsers").pushObject(this.get("inputValue"));
+          }
           if (this.get("recentUsers.length") > 5) {
             this.get("recentUsers").shiftObject();
           }
-          this.get('recomendedProps').removeObject(arr);
+          this.get("recomendedProps").removeObject(arr);
         } else {
           this.set("inputValue", value);
           this.set("selectedUser", value);
+          if (
+            this.get("recentUsers").indexOf(this.get("inputValue")) === -1 &&
+            this.get("inputValue") !== ""
+          ) {
+            this.get("recentUsers").pushObject(this.get("inputValue"));
+          }
+          if (this.get("recentUsers.length") > 5) {
+            this.get("recentUsers").shiftObject();
+          }
         }
       } else if (event.key === "ArrowUp") {
         this.decrementProperty("indexOfUsers");
